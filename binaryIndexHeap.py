@@ -103,6 +103,12 @@ class BinaryIndexHeap:
     def contain(self,data_index):
         return self.revId.get(data_index) is not None
 
+    def getData(self,data_index):
+        if self.contain(data_index):
+            return self.data[data_index]
+        else:
+            return None
+
     def empty(self):
         return self.count==0
 

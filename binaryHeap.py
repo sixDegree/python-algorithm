@@ -19,7 +19,7 @@ import math
         or
        All Node Value: Parent<=Child => 最小堆
     
-    3. 存储：可用数组二叉堆，从上到下，左到右，按层序存放
+    3. 存储：可用数组存储二叉堆，从上到下，左到右，按层序存放
         parent          (i-1)/2
         left_child      2*i+1
         right_child     2*i+2

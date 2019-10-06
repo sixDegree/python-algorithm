@@ -223,4 +223,57 @@ if __name__ == '__main__':
     test_singleLinkList()
     print("***"*10)
 
+    '''
+    Run Result：
+
+    Test SingleLinkList:
+    is_empty: True
+    append: A
+    append: B
+    append: C
+    append: D
+    travel: ['A', 'B', 'C', 'D']
+    size: 4
+    ------------------------------
+    insert pos 0(default): H
+    insert pos 2: I
+    insert pos -1: J
+    travel: ['H', 'A', 'I', 'B', 'C', 'J', 'D']
+    size: 7
+    ------------------------------
+    pop pos 0: H
+    pop pos 2: B
+    pop pos -1(default): D
+    travel: ['A', 'I', 'C', 'J']
+    size: 4
+    ------------------------------
+    remove: None
+    remove: C
+    remove: A
+    travel: ['I', 'J']
+    size: 2
+    is_empty: False
+    ------------------------------
+    clear...
+    is_empty: True
+    size: 0
+    insert pos 0(default): A
+    insert pos 0(default): B
+    travel: ['B', 'A']
+    insert pos 1: C
+    travel: ['B', 'C', 'A']
+    insert pos 2: D
+    travel: ['B', 'C', 'D', 'A']
+    insert pos 4: E
+    travel: ['B', 'C', 'D', 'A', 'E']
+    size: 5
+    pop pos 0: B
+    pop pos 0: C
+    pop pos 0: D
+    pop pos 0: A
+    pop pos 0: E
+    pop pos 0: None
+    travel: []
+    size: 0
+    '''
 

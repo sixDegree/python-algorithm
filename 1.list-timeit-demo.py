@@ -81,20 +81,25 @@ if __name__=='__main__':
     print("***"*10)
 
 
-# Run Result:
-#
-# test_gen1 : [i for i in range(...)]   => cost: 0.04163s
-# test_gen2 : list([range(...)])        => cost: 0.01663s
-# `[i for i in range(...)]` - `list([range(...)])` = 0.02500
-# ******************************
-# test_concat1 : l=l+[i] => cost: 1.22195s
-# test_concat2 : l+=[i]  => cost: 0.08704s
-# `l=l+[i]` - `l+=[i]` = 1.13491
-# ******************************
-# test_append : l.append(i)   => cost: 0.07949s
-# test_extend : l.extend([i]) => cost: 0.11865s
-# `l.append(i)` - `l.extend([i])` = -0.03916
-# ******************************
-# pop head : pop(0)    => cost: 1.70021s
-# pop tail : pop()     => cost: 0.00009s
-# `pop(0)` - `pop()` = 1.70012
+  '''
+  Run Result:
+
+  test_gen1 : [i for i in range(...)]   => cost: 0.04163s
+  test_gen2 : list([range(...)])        => cost: 0.01663s
+  `[i for i in range(...)]` - `list([range(...)])` = 0.02500
+  ******************************
+  test_concat1 : l=l+[i] => cost: 1.22195s
+  test_concat2 : l+=[i]  => cost: 0.08704s
+  `l=l+[i]` - `l+=[i]` = 1.13491
+  ******************************
+  test_append : l.append(i)   => cost: 0.07949s
+  test_extend : l.extend([i]) => cost: 0.11865s
+  `l.append(i)` - `l.extend([i])` = -0.03916
+  ******************************
+  pop head : pop(0)    => cost: 1.70021s
+  pop tail : pop()     => cost: 0.00009s
+  `pop(0)` - `pop()` = 1.70012
+  '''
+
+
+  

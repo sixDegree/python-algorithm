@@ -31,6 +31,21 @@ def test_stack():
     print("pop:",s.pop())
     print("size:",s.size())
 
+    '''
+    Run Result:
+
+    Test Stack:
+    is_empty: True
+    push: A
+    push: B
+    push: C
+    size: 3
+    pop: C
+    pop: B
+    pop: A
+    size: 0
+    '''
+
 
 # 2. Queue: 先进先出(可用顺序表或链表实现)
 
@@ -65,6 +80,21 @@ def test_queue():
     print("pop:",q.pop())
     print("pop:",q.pop())
     print("size:",q.size())
+
+    '''
+    Run Result
+
+    Test Queue:
+    is_empty: True
+    push: A
+    push: B
+    push: C
+    size: 3
+    pop: A
+    pop: B
+    pop: C
+    size: 0
+    '''
 
 
 if __name__ == '__main__':

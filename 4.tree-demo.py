@@ -141,12 +141,29 @@ def test_tree():
     print("后序(＝左右根):", t.postorder_travel())
 
 
-
+    '''
+    Run Result
+    
+    Test Tree:
+    
+                 A
+             /        \
+            B          C
+          /   \       /
+         D     E    F
+    
+    广度（＝层级）: ['A', 'B', 'C', 'D', 'E', 'F']
+    深度（＝先序）: ['A', 'B', 'D', 'E', 'C', 'F']
+    先序(＝根左右): ['A', 'B', 'D', 'E', 'C', 'F']
+    中序(＝左根右): ['D', 'B', 'E', 'A', 'F', 'C']
+    后序(＝左右根): ['D', 'E', 'B', 'F', 'C', 'A']
+    '''
 
 if __name__ == '__main__':
 
     test_tree()
     print("***"*10)
+
 
 
 

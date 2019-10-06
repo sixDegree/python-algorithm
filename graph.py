@@ -29,24 +29,31 @@
                 * Kruskal 算法: 每次找weight最小的边，且不形成环
                     O(ElogE)
             
-            + 最短路径(Shortest Path Tree)
+            + 单源最短路径(Single Shortest Path Tree)
                 
-                * 单源最短路径，从点A到点B的最短路径
+                * 从指定点A到其它所有点的最短路径
                 
                 * Dijkstra 算法: 
                     不能有负权边
-                    O(ElogV),借助优先队列
+                    借助优先队列 => O(ElogE)
+                    借助最小索引堆 => O(ElogV)
                 
                 * BellmanFord 算法:
-                    不能有负权环（此算法可判断出）
+                    可以处理负权边，判别出负权环（有负权环则无最短路径）
                     O(EV)
+                    判别出负权环:
+                        + 原理：
+                               最短路径最多经过所有`V`个顶点，`V-1`条边，
+                               对所有点进行`V-1`次松弛操作，理论上就找到了从源点到其它所有点的最短路径，
+                               如果还可以继续松弛，则说明图中存在负权环
+                        + 实现：
+                            通过对所有点多做一次松弛操作（即所有点经过2次松弛操作），
+                            发现经过某个点的另外一条距离更短的路径，则表示存在负权环
 
-
-    最小生成树权值之和为最小，但不能保证任意两点之间是最短路径
-    最小生成树是用最小代价遍历整个图中所有顶点，所有的权值和最小。
-    而最短路径只是保证出发点到终点的路径和最小，不一定要经过所有顶点；
-    最小生成树是到一群点（所有点）的路径代价和最小，是一个n-1条边的树，
-    最短路径是从一个点到另一个点的最短路径；
+            + 最小生成树 vs. 最短路径
+                * 最小生成树：保证连接所有点的权值总和最小
+                * 最短路径(单源）：保证所有点到起始点的距离最小（最短路径树，也是一棵生成树，但不是最小生成树）
+                      => 从一点到其它各个点的最短路径（单源最短路径）
 
 
     最小生成树 -> 最短路径 子过程 ，动态规划
@@ -299,7 +306,7 @@ class GraphTestHelper:
             for i in graph.nextNodeIter(w):
                 if not visited[i]:
                     item=(i,graph.getWeight(w,i))
-                    if indexHeap.contain(i):
+                    if indexHeap.contain(i) and indexHeap.getData(i)[1]>item[1]:
                         # print("update: i=%d,weight=%d" % item)
                         indexHeap.update(i,item)
                     else:
@@ -358,7 +365,7 @@ class GraphTestHelper:
 
         return parent,distance
 
-    # O(ElogV) 贪心
+    # 优化：贪心，减少入堆数 （ 进一步优化，需使用最小索引堆 => O(ElogV) )
     def dijkstra_opt(self,graph,x):
         parent=[i for i in range(0,graph.n)]
         distance=[i!=x and math.inf or 0 for i in range(0,graph.n)]
@@ -395,7 +402,7 @@ class GraphTestHelper:
                 x=parent[x]
             print(x)
 
-    # O(EV) 动归
+    # V轮对E条边做松弛操作 ＝> O(VE)
     def bellmanFord(self,graph,s):
         dist=[math.inf for i in range(0,graph.n)]
         dist[s]=0
@@ -414,7 +421,7 @@ class GraphTestHelper:
 
         print("edges :",edges)
 
-        # do one more Relaxtion to distinguish if has Negative cycle
+        # do one more time Relaxtion to distinguish if has Negative cycle
         hasNegativeCycle=False
         for j in range(0,graph.n):
             for w in graph.nextNodeIter(j):
@@ -446,18 +453,59 @@ if __name__ == '__main__':
 
     # eg2
     # n=6
-    # graph=SparseGraph(n,directed=False)
+    # graph=SparseGraph(n,directed=False) # graph = DenseGraph(n,directed=False)
     # graph.addEdge(0,1,5)
     # graph.addEdge(0,2,1)
     # graph.addEdge(1,2,2)
     # graph.addEdge(1,3,1)
     # graph.addEdge(2,3,4)
     # graph.addEdge(2,4,8)
-    # graph.addEdge(3,4,3)    #  graph.addEdge(3,4,6)
+    # graph.addEdge(3,4,3)    #  graph.addEdge(3,4,6), graph.addEdge(3,4,10)
     # graph.addEdge(3,5,6)
     # graph.show()
-    
+
     # testHelper.travel(graph)
+
+    '''
+    Sparse Graph Run Result:
+
+    n * m = 6 * 8
+    0 : {1: 5, 2: 1}
+    1 : {0: 5, 2: 2, 3: 1}
+    2 : {0: 1, 1: 2, 3: 4, 4: 8}
+    3 : {1: 1, 2: 4, 4: 3, 5: 6}
+    4 : {2: 8, 3: 3}
+    5 : {3: 6}
+
+    nodes     : [0, 1, 2, 3, 4, 5]
+    visited   : [1, 1, 1, 1, 1, 1]
+    roots     : [0, 0, 0, 0, 0, 0]
+    parents   : [-1, 0, 1, 2, 3, 3]
+    set_size  : [6, -1, -1, -1, -1, -1]
+    conn_grps : 1
+
+    -------------------------------------
+
+    Dense Graph Run Result: 
+
+    n * m = 6 * 8
+           0   1   2   3   4   5
+    0 :    .   5   1   .   .   .
+    1 :    5   .   2   1   .   .
+    2 :    1   2   .   4   8   .
+    3 :    .   1   4   .   3   6
+    4 :    .   .   8   3   .   .
+    5 :    .   .   .   6   .   .
+    nodes     : [0, 1, 2, 3, 4, 5]
+    visited   : [1, 1, 1, 1, 1, 1]
+    roots     : [0, 0, 0, 0, 0, 0]
+    parents   : [-1, 0, 1, 2, 3, 3]
+    set_size  : [6, -1, -1, -1, -1, -1]
+    conn_grps : 1
+    '''
+    
+    #===========================================
+
     # testHelper.prim(graph)
     # testHelper.prim_opt(graph)
     # testHelper.kruskal(graph)
